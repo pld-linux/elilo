@@ -3,7 +3,7 @@ Summary(pl):	ELILO - linuksowy bootloader dla platform EFI
 Name:		elilo
 Version:	3.5
 %define	bver	pre1
-Release:	0.%{bver}.1
+Release:	0.%{bver}.2
 License:	GPL
 Group:		Applications/System
 Source0:	http://dl.sourceforge.net/elilo/%{name}-%{version}-%{bver}.tgz
