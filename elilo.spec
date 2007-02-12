@@ -1,5 +1,5 @@
 Summary:	ELILO: EFI Linux Boot Loader
-Summary(pl.UTF-8):   ELILO - linuksowy bootloader dla platform EFI
+Summary(pl.UTF-8):	ELILO - linuksowy bootloader dla platform EFI
 Name:		elilo
 Version:	3.6
 Release:	1
