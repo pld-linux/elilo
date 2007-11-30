@@ -24,9 +24,13 @@ oraz x86_64 opartych na EFI.
 %setup -q
 
 %build
-%{__make} \
+%{__make} -j1 \
+	ARCH=$(echo %{_target_base_arch} | sed -e 's/i386/ia32/') \
 	CC="%{__cc}" \
-	OPTIMFLAGS="%{rpmcflags}"
+	OPTIMFLAGS="%{rpmcflags}" \
+	EFICRT0=%{_libdir} \
+	EFILIB=%{_libdir} \
+	GNUEFILIB=%{_libdir}
 
 %install
 rm -rf $RPM_BUILD_ROOT
