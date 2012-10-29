@@ -48,5 +48,4 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %doc %{version}-release-notes.txt elilo/{ChangeLog,README*,TODO} elilo/docs/*.txt elilo/examples
 %attr(755,root,root) %{_sbindir}/eliloalt
-%dir /boot/efi
 /boot/efi/elilo.efi
