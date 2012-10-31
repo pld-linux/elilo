@@ -11,6 +11,7 @@ Source1:	%{name}.conf
 Source2:	%{name}.efi-boot-update
 URL:		http://elilo.sourceforge.net/
 BuildRequires:	gnu-efi >= 3.0d
+Suggests:	efi-boot-update
 ExclusiveArch:	%{ix86} %{x8664} ia64
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
