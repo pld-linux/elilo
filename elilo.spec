@@ -66,6 +66,9 @@ echo "Upgrade detected, copying elilo.efi to /boot/efi/elilo.efi..."
 cp --preserve=ship,timestamps /lib/efi/%{efi_arch}/elilo.efi /boot/efi/elilo.efi || :
 echo "Remove /boot/efi/elilo.efi if you don't need it."
 
+%post
+/sbin/efi-boot-update --auto || :
+
 %clean
 rm -rf $RPM_BUILD_ROOT
 
