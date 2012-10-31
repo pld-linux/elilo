@@ -1,0 +1,17 @@
+ENABLED=yes
+LABEL="ELILO"
+ARCH=x64
+BINARY=elilo.efi
+ARGS=""
+
+install_files() {
+
+    update_file /lib/efi/$ARCH/elilo.efi elilo.efi
+    update_file /etc/efi-boot/elilo.conf elilo.conf
+
+    update_file /boot/initrd initrd
+    update_file /boot/vmlinuz vmlinuz
+
+    update_file --missingok initrd.old initrd.old
+    update_file --missingok vmlinuz.old vmlinuz.old
+}
