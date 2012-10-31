@@ -2,7 +2,7 @@ Summary:	ELILO: EFI Linux Boot Loader
 Summary(pl.UTF-8):	ELILO - linuksowy bootloader dla platform EFI
 Name:		elilo
 Version:	3.14
-Release:	1
+Release:	1.1
 License:	GPL v2+
 Group:		Applications/System
 Source0:	http://downloads.sourceforge.net/elilo/%{name}-%{version}-all.tar.gz
@@ -11,6 +11,16 @@ URL:		http://elilo.sourceforge.net/
 BuildRequires:	gnu-efi >= 3.0d
 ExclusiveArch:	%{ix86} %{x8664} ia64
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
+
+%ifarch %{ix86}
+%define	efi_arch ia32
+%endif
+%ifarch %{x8664}
+%define	efi_arch x64
+%endif
+%ifarch ia64
+%define	efi_arch ia64
+%endif
 
 %description
 ELILO is the EFI Linux boot loader for IA-64 (IPF), IA-32 (x86) and
@@ -36,10 +46,17 @@ tar xf elilo-%{version}-source.tar.gz
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{%{_sbindir},/boot/efi}
+install -d $RPM_BUILD_ROOT{%{_sbindir},/lib/efi/%{efi_arch}}
 
 install elilo/tools/eliloalt $RPM_BUILD_ROOT%{_sbindir}
-install elilo/elilo.efi $RPM_BUILD_ROOT/boot/efi
+install elilo/elilo.efi $RPM_BUILD_ROOT/lib/efi/%{efi_arch}/elilo.efi
+
+%triggerpostun -- %{name} < 3.14-1.1
+# someone may have boot configured from this misplaced location
+# better put elilo.efi copy there too
+echo "Upgrade detected, copying elilo.efi to /boot/efi/elilo.efi..."
+cp --preserve=ship,timestamps /lib/efi/%{efi_arch}/elilo.efi /boot/efi/elilo.efi || :
+echo "Remove /boot/efi/elilo.efi if you don't need it."
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -48,4 +65,4 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %doc %{version}-release-notes.txt elilo/{ChangeLog,README*,TODO} elilo/docs/*.txt elilo/examples
 %attr(755,root,root) %{_sbindir}/eliloalt
-/boot/efi/elilo.efi
+/lib/efi/%{efi_arch}/elilo.efi
