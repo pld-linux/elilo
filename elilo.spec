@@ -2,7 +2,7 @@ Summary:	ELILO: EFI Linux Boot Loader
 Summary(pl.UTF-8):	ELILO - linuksowy bootloader dla platform EFI
 Name:		elilo
 Version:	3.14
-Release:	1.1
+Release:	2
 License:	GPL v2+
 Group:		Applications/System
 Source0:	http://downloads.sourceforge.net/elilo/%{name}-%{version}-all.tar.gz
