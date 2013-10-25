@@ -1,12 +1,12 @@
 Summary:	ELILO: EFI Linux Boot Loader
 Summary(pl.UTF-8):	ELILO - linuksowy bootloader dla platform EFI
 Name:		elilo
-Version:	3.14
-Release:	2
+Version:	3.16
+Release:	1
 License:	GPL v2+
 Group:		Applications/System
 Source0:	http://downloads.sourceforge.net/elilo/%{name}-%{version}-all.tar.gz
-# Source0-md5:	d16086bcb228d2c25e241d73c1bf36be
+# Source0-md5:	31ae4652b0bd4580b37640054e7146bc
 Source1:	%{name}.conf
 Source2:	%{name}.efi-boot-update
 URL:		http://elilo.sourceforge.net/
@@ -39,7 +39,7 @@ oraz x86_64 opartych na EFI.
 tar xf elilo-%{version}-source.tar.gz
 
 %build
-%{__make} -C elilo -j1 \
+%{__make} -C elilo-%{version}-source -j1 \
 	ARCH=$(echo %{_target_base_arch} | sed -e 's/i386/ia32/') \
 	CC="%{__cc}" \
 	OPTIMFLAGS="%{rpmcflags}" \
@@ -52,8 +52,8 @@ rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{_sbindir},/lib/efi/%{efi_arch}} \
 		$RPM_BUILD_ROOT/etc/efi-boot/update.d
 
-install elilo/tools/eliloalt $RPM_BUILD_ROOT%{_sbindir}
-install elilo/elilo.efi $RPM_BUILD_ROOT/lib/efi/%{efi_arch}/elilo.efi
+install elilo-%{version}-source/tools/eliloalt $RPM_BUILD_ROOT%{_sbindir}
+install elilo-%{version}-source/elilo.efi $RPM_BUILD_ROOT/lib/efi/%{efi_arch}/elilo.efi
 
 install %{SOURCE1}  $RPM_BUILD_ROOT/etc/efi-boot/%{name}.conf
 sed -e's/ARCH=.*/ARCH=%{efi_arch}/' %{SOURCE2} \
@@ -77,7 +77,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc %{version}-release-notes.txt elilo/{ChangeLog,README*,TODO} elilo/docs/*.txt elilo/examples
+%doc %{version}-release-notes.txt elilo-%{version}-source/{ChangeLog,README*,TODO,docs/*.txt,examples}
 %attr(755,root,root) %{_sbindir}/eliloalt
 /etc/efi-boot/%{name}.conf
 /etc/efi-boot/update.d/%{name}.conf
